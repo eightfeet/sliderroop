@@ -1,0 +1,132 @@
+.roopWrap{
+    width: 1003px;
+    height: 375px;
+    background-color: #eee;
+    overflow: hidden;
+    position: relative;
+}
+.roopWrap i {
+    display: block;
+    position: absolute;
+    z-index: 2;
+    top: 167px;
+    width: 39px;
+    height: 39px;
+    background-image: url(./images/iconroop.png);
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    cursor: pointer;
+}
+.iconlast {
+    left: 10px;
+    background-position: left center;
+}
+.iconnext {
+    right: 10px;
+    background-position: right center;
+}
+.roopmain {
+    height:375px;
+    width: 3255px;
+    list-style: none;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    left:-1395px;
+}
+#cover, .coverdom {
+    height:375px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+}
+.coverdom {
+    width: 1003px;
+}
+.item {
+    float: left;
+    width: 456px;
+    height: 375px;
+    position: relative;
+}
+
+.contentbox {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 456px;
+    height: 375px;
+    cursor: pointer;
+}
+
+.contentbox .leftbox {
+    position: absolute;
+    right: 365px;
+    left: 0;
+    top: 0;
+    height: 375px;
+    background-color: #f3f2f2;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: auto 100%;
+}
+
+.contentbox table {
+    padding: 0;
+    margin: 0;
+}
+
+.contentbox table td {
+    padding: 0;
+    margin: 0;
+}
+
+.contentbox table h3 {
+    color: #595757;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.contentbox table h3 span {
+    font-weight: bolder;
+}
+
+.contentbox .layouttable {
+    height: 375px;
+    margin: 0 auto;
+}
+
+.contentbox .rightbox {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 375px;
+    width: 365px;
+    background-color: #f3f2f2;
+}
+
+.valign {
+    vertical-align: middle;
+}
+
+.contentbox .textview {
+    margin: 0 auto;
+    width: 270px;
+}
+
+.contentbox{
+    height: 375px;
+}
+
+.contentbox .rightbox h3 {
+    text-align: center;
+}
+
+.contentbox .discript {
+    padding-top: 27px;
+    font-size: 12px;
+    line-height: 21px;
+}

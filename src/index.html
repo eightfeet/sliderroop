@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>官网DEMO</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./jquery.min.js"></script>
+    <script src="./data.js"></script>
+</head>
+<body>
+    <div class="roopWrap" id="roopWrap">
+        <div id="cover"></div>
+        <ul class="roopmain" id="itemsbar">
+        </ul>
+        <i id="last" class="icon iconlast">&nbsp;</i><i id="next" class="icon iconnext">&nbsp;</i>
+    </div>
+    
+    <script>
+        var itemsstep = 456;
+        var offset = itemsstep * -3;
+        var itemsbar=$('#itemsbar');
+        var next=$('#next');
+        var last=$('#last');
+        var locked=false;
+        itemsbar.css({
+            left: offset
+        })
+
+        var initDom = function(arrData) {
+            var firstViewList = arrData.slice(arrData.length - 3, arrData.length).concat(arrData.slice(0, 4));
+            var firstDom = ''
+            for (var index = 0; index < firstViewList.length; index++) {
+                var data = firstViewList[index];
+                firstDom += '<li class="item" onclick="itemClick(this)" data-index="'+ (index <= 2 ? index + 12 : index - 3) + '">'+ DOMFactory(data) +'</li>'
+            }
+
+            itemsbar.append(firstDom);
+        }
+
+        var DOMFactory = function(data, left) {
+            return (
+                '<div class="contentbox"'+ (left !== undefined? ('style="left:'+left+'px"') : '') +'><div class="leftbox" style="background-image: url('+data.img+')">&nbsp;</div>' +
+                '<div class="rightbox"><table class="layouttable"><tr><td class="valign">' +
+                '<table class="textview"><tr><th><h3>'+data.country[0]+'<span style="color:'+data.color+'">&nbsp;'+data.title[0]+'</span></h3></th></tr><tr><td>'+
+                '<h3 style="color:'+data.color+'">'+data.country[1]+'<span>&nbsp;'+data.title[1]+'</span></h3>'+
+                '<div class="discript">'+
+                data.describe +
+                '</div></td></tr></table></td></tr></table></div></div>'
+            )
+        }
+
+        var effectAnimate = function(direction) {
+            if (locked) {
+                return;
+            }
+            locked = true;
+            var oprationDirec = direction || 'next';
+            var distance=itemsstep;
+            if (oprationDirec === 'next') {
+                distance *= -1;
+            }
+            if (oprationDirec === 'last') {
+                distance *= 1;
+            }
+            itemsbar.animate({left: offset + distance}, 500, 'swing', function() {
+                locked = false;
+                var index;
+                var appendDom;
+                if (oprationDirec === 'next') {
+                    index = (parseInt($(".item:eq(3)").attr('data-index')) + 4)%15;
+                    appendDom = '<li class="item" onclick="itemClick(this)" data-index="'+ index + '">'+ DOMFactory(dataRoop[index]) +'</li>'
+                    $(".item:first").remove();
+                    itemsbar.css({left: offset});
+                    $(appendDom).insertAfter(".item:last")
+                }
+
+                if (oprationDirec === 'last') {
+                    var dataindex = parseInt($(".item:eq(3)").attr('data-index')) - 4;
+                    if (dataindex < 0) {
+                        index = 15 + dataindex;
+                    } else {
+                        index = dataindex
+                    }
+                    appendDom = '<li class="item" onclick="itemClick(this)" data-index="'+ index + '">'+ DOMFactory(dataRoop[index]) +'</li>'
+                    $(".item:last").remove();
+                    itemsbar.css({left: offset});
+                    $(appendDom).insertBefore(".item:first");
+                }
+            })
+        }
+
+        var itemClick = function(element){
+            var posInd = $(element).index();
+            var leftPosition = null;
+            if (posInd === 3) {
+                leftPosition = 0
+            } else if (posInd === 4) {
+                leftPosition = itemsstep
+            } else {
+                return;
+            }
+
+            var dataIndex = parseInt($(element).attr('data-index'));
+
+            var topDom = DOMFactory(dataRoop[dataIndex], leftPosition);
+            
+            $('<div class="coverdom"  id="coveranimatedom'+ posInd +'">'+topDom+'</div>').bind('click',hideCover).appendTo('#cover');
+            setTimeout(function(){
+                $('.coverdom .contentbox').animate({
+                    left: 0,
+                    width: 1003
+                })
+            });
+        }
+
+        var hideCover = function(e){
+            e.stopPropagation();
+            var id = $(e.currentTarget).attr('id');
+            var left = 0;
+            if (id === 'coveranimatedom4') {
+                left = itemsstep;
+            }
+            $(e.currentTarget).find('.contentbox').animate({
+                left: left,
+                width: itemsstep
+            }, function(){
+                $('#cover').html('');
+            })
+        }
+        
+        next.click(function(){
+            effectAnimate();
+        });
+        last.click(function(){
+            effectAnimate('last');
+        });
+
+        initDom(dataRoop);
+    </script>
+</body>
+</html>
